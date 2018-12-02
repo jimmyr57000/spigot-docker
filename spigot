@@ -8,7 +8,7 @@ MINECRAFT_STARTUP_JAR=${MINECRAFT_STARTUP_JAR:-"$MINECRAFT_JAR"}
 MINECRAFT_OPTS=${MINECRAFT_OPTS:-"-server -Xmx1024m -XX:MaxPermSize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC"}
 WORLD_DIR="/var/lib/minecraft"
 
-SPIGOT_BUILDTOOLS_URL=${SPIGOT_BUILDTOOLS_URL:-"https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"}
+SPIGOT_BUILDTOOLS_URL=${SPIGOT_BUILDTOOLS_URL:-"http://cdn.jimmyrich.fr/Minecraft_JAR/Spigot/Spigot_1.8.8/spigot.jar"}
 TMUX_SESSION=spigot
 
 check_env() {
@@ -31,12 +31,13 @@ check_env() {
 build_server() {
     # Compile spigot if it does not exist.
     if [ ! -f "$MINECRAFT_HOME/$MINECRAFT_JAR" ]; then
-        echo "Building Spigot" && \
+        echo "
+        
+        ing Spigot" && \
             mkdir -p /tmp/spigot && \
-            curl -S $SPIGOT_BUILDTOOLS_URL -o /tmp/spigot/BuildTools.jar && \
+            curl -S $SPIGOT_BUILDTOOLS_URL && \
             pushd /tmp/spigot > /dev/null && \
-            java -jar BuildTools.jar --rev $MINECRAFT_VERSION && \
-            cp /tmp/spigot/craftbukkit-*.jar  /tmp/spigot/spigot-*.jar $MINECRAFT_HOME && \
+            cp /tmp/spigot/spigot.jar  /tmp/spigot/spigot.jar $MINECRAFT_HOME && \
             popd > /dev/null && \
             rm -rf /tmp/spigot
 
